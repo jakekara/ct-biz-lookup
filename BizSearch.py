@@ -1,20 +1,21 @@
+# Library for searching CT Biz Registration lookup by keyword
+
 import requests
 from BeautifulSoup import BeautifulSoup
 
 class BizSearch:
 
-    def __init__(self, outfile):
+    def __init__(self):
         self.s = requests.Session()
         adv_search_url = "http://searchctbusiness.ctdata.org/advanced_search"
         user_agent = {'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/10.0.1 Safari/602.2.14'}
         soup = BeautifulSoup(self.s.get(adv_search_url, headers=user_agent).content)
+
+        # Get CSRF token
         for inp in soup.findAll("input"):
             if inp["id"] == "csrf_token":
                 self.token = inp["value"]
-
-        self.outfile = open(outfile,"w")
         
-
     def make_url(self, term):
             base_url = "http://searchctbusiness.ctdata.org/search_results?"
             self.params = {
@@ -60,9 +61,9 @@ class BizSearch:
             "sort_order":"asc"}
 
         adv_download_url = "http://searchctbusiness.ctdata.org/download"
-        content = self.s.post(adv_download_url,data=params2).content
+        self.content = self.s.post(adv_download_url,data=params2).content
 
-        self.outfile.write(content)
+    def write(self, outfile):
+        self.outfile = open(outfile,"w")
+        self.outfile.write(self.content)
         self.outfile.close()
-
-        
