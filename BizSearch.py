@@ -8,7 +8,8 @@ class BizSearch:
     def __init__(self):
         self.s = requests.Session()
         adv_search_url = "http://searchctbusiness.ctdata.org/advanced_search"
-        user_agent = {'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/10.0.1 Safari/602.2.14'}
+
+        user_agent = {'User-agent': 'TRENDCT BizBot'}
         soup = BeautifulSoup(self.s.get(adv_search_url, headers=user_agent).content)
 
         # Get CSRF token
