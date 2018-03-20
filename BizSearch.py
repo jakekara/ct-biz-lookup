@@ -1,7 +1,8 @@
 # Library for searching CT Biz Registration lookup by keyword
 
 import requests
-from BeautifulSoup import BeautifulSoup
+# from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 class BizSearch:
 
@@ -11,7 +12,7 @@ class BizSearch:
 
         # user_agent = {'User-agent': 'TRENDCT BizBot'}
         user_agent = {'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/10.0.1 Safari/602.2.14'}
-        soup = BeautifulSoup(self.s.get(adv_search_url, headers=user_agent).content)
+        soup = BeautifulSoup(self.s.get(adv_search_url, headers=user_agent).content, "html.parser")
 
         # Get CSRF token
         for inp in soup.findAll("input"):
